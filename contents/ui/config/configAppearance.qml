@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Derived from Desktop Switcher by Sm1Tee.
-// Modified by Greg / Columbia Foundry for kOMA; notice added 2026-10-05.
+// Modified by Greg / Columbia Foundry for kOMA; 2026-10-05: kOMA changes and English-only interface.
 import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts
@@ -26,42 +26,26 @@ KCM.SimpleKCM {
     property string cfg_customDotColor: "#ffffff"
     property string cfg_middleClickAction: "none"
     property int cfg_iconSize: 30
-    property string cfg_language: "en"
 
-    function tr(ru, en) {
-        return root.cfg_language === "en" ? en : ru
-    }
 
     Kirigami.FormLayout {
-        QQC2.ComboBox {
-            id: language
-            Kirigami.FormData.label: "Язык / Language:"
-            textRole: "text"
-            valueRole: "value"
-            model: [
-                { text: "Русский", value: "ru" },
-                { text: "English", value: "en" }
-            ]
-            Component.onCompleted: currentIndex = indexOfValue(root.cfg_language)
-            onActivated: root.cfg_language = currentValue
-        }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: root.tr("Форма", "Shape")
+            Kirigami.FormData.label: "Shape"
         }
 
         QQC2.ComboBox {
             id: indicatorShape
-            Kirigami.FormData.label: root.tr("Форма индикатора:", "Indicator shape:")
+            Kirigami.FormData.label: "Indicator shape:"
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: root.tr("Точки", "Dots"), value: "dot" },
-                { text: root.tr("Круги", "Circles"), value: "circle" },
-                { text: root.tr("Квадраты", "Squares"), value: "square" },
-                { text: root.tr("Капсулы", "Capsules"), value: "capsule" },
-                { text: root.tr("Без фона, разделители ||", "No background, || separators"), value: "separators" }
+                { text: "Dots", value: "dot" },
+                { text: "Circles", value: "circle" },
+                { text: "Squares", value: "square" },
+                { text: "Capsules", value: "capsule" },
+                { text: "No background, || separators", value: "separators" }
             ]
 
             function syncCurrentIndex() {
@@ -80,14 +64,14 @@ KCM.SimpleKCM {
 
         QQC2.ComboBox {
             id: visualizationMode
-            Kirigami.FormData.label: root.tr("Визуализация:", "Visualization:")
+            Kirigami.FormData.label: "Visualization:"
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: root.tr("Нет", "None"), value: "none" },
-                { text: root.tr("Номера", "Numbers"), value: "numbers" },
-                { text: root.tr("Индикатор окон", "Window dots"), value: "windowDot" },
-                { text: root.tr("Иконки приложений", "App icons"), value: "icons" }
+                { text: "None", value: "none" },
+                { text: "Numbers", value: "numbers" },
+                { text: "Window dots", value: "windowDot" },
+                { text: "App icons", value: "icons" }
             ]
 
             function syncCurrentIndex() {
@@ -106,7 +90,7 @@ KCM.SimpleKCM {
 
         QQC2.SpinBox {
             id: maxIconCount
-            Kirigami.FormData.label: root.tr("Макс. значков:", "Max icons:")
+            Kirigami.FormData.label: "Max icons:"
             from: 1
             to: 10
             visible: root.cfg_visualizationMode === "icons" && (root.cfg_indicatorShape === "square" || root.cfg_indicatorShape === "capsule" || root.cfg_indicatorShape === "separators")
@@ -114,26 +98,26 @@ KCM.SimpleKCM {
 
         QQC2.CheckBox {
             id: showNumberWithIcons
-            text: root.tr("Показывать номер стола", "Show workspace number")
+            text: "Show workspace number"
             visible: root.cfg_visualizationMode === "icons" && (root.cfg_indicatorShape === "square" || root.cfg_indicatorShape === "capsule" || root.cfg_indicatorShape === "separators")
         }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: root.tr("Поведение", "Behavior")
+            Kirigami.FormData.label: "Behavior"
         }
 
         QQC2.ComboBox {
             id: middleClickAction
-            Kirigami.FormData.label: root.tr("Средний клик:", "Middle click:")
+            Kirigami.FormData.label: "Middle click:"
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: root.tr("Ничего", "Nothing"), value: "none" },
-                { text: root.tr("Закрыть все окна на столе", "Close all windows on desktop"), value: "closeAll" },
-                { text: root.tr("Обзор рабочих столов", "Desktop overview"), value: "overview" },
-                { text: root.tr("Сетка рабочих столов", "Desktop grid"), value: "grid" },
-                { text: root.tr("Свернуть все окна", "Show desktop"), value: "showDesktop" }
+                { text: "Nothing", value: "none" },
+                { text: "Close all windows on desktop", value: "closeAll" },
+                { text: "Desktop overview", value: "overview" },
+                { text: "Desktop grid", value: "grid" },
+                { text: "Show desktop", value: "showDesktop" }
             ]
 
             function syncCurrentIndex() {
@@ -152,11 +136,11 @@ KCM.SimpleKCM {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: root.tr("Размеры", "Sizes")
+            Kirigami.FormData.label: "Sizes"
         }
 
         RowLayout {
-            Kirigami.FormData.label: root.tr("Размер значков:", "Icon size:")
+            Kirigami.FormData.label: "Icon size:"
             visible: root.cfg_visualizationMode === "icons" && (root.cfg_indicatorShape === "square" || root.cfg_indicatorShape === "capsule" || root.cfg_indicatorShape === "separators")
 
             QQC2.Slider {
@@ -177,7 +161,7 @@ KCM.SimpleKCM {
         }
 
         RowLayout {
-            Kirigami.FormData.label: root.tr("Размер элемента:", "Element size:")
+            Kirigami.FormData.label: "Element size:"
 
             QQC2.Slider {
                 id: elementSize
@@ -197,7 +181,7 @@ KCM.SimpleKCM {
         }
 
         RowLayout {
-            Kirigami.FormData.label: root.tr("Интервал:", "Spacing:")
+            Kirigami.FormData.label: "Spacing:"
 
             QQC2.Slider {
                 id: elementSpacing
@@ -218,17 +202,17 @@ KCM.SimpleKCM {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: root.tr("Цвета", "Colors")
+            Kirigami.FormData.label: "Colors"
         }
 
         QQC2.CheckBox {
             id: useThemeColors
-            text: root.tr("Использовать цвета темы KDE", "Use KDE theme colors")
+            text: "Use KDE theme colors"
         }
 
         KQuickControls.ColorButton {
             id: customActiveBgColor
-            Kirigami.FormData.label: root.tr("Фон активного стола:", "Active desktop bg:")
+            Kirigami.FormData.label: "Active desktop bg:"
             color: root.cfg_customActiveBgColor
             showAlphaChannel: true
             visible: !root.cfg_useThemeColors
@@ -237,7 +221,7 @@ KCM.SimpleKCM {
 
         KQuickControls.ColorButton {
             id: customInactiveBgColor
-            Kirigami.FormData.label: root.tr("Фон неактивных столов:", "Inactive desktop bg:")
+            Kirigami.FormData.label: "Inactive desktop bg:"
             color: root.cfg_customInactiveBgColor
             showAlphaChannel: true
             visible: !root.cfg_useThemeColors
@@ -246,7 +230,7 @@ KCM.SimpleKCM {
 
         KQuickControls.ColorButton {
             id: customBorderColor
-            Kirigami.FormData.label: root.tr("Цвет границ:", "Border color:")
+            Kirigami.FormData.label: "Border color:"
             color: root.cfg_customBorderColor
             showAlphaChannel: true
             visible: !root.cfg_useThemeColors
@@ -255,7 +239,7 @@ KCM.SimpleKCM {
 
         KQuickControls.ColorButton {
             id: customNumberColor
-            Kirigami.FormData.label: root.tr("Цвет номеров:", "Number color:")
+            Kirigami.FormData.label: "Number color:"
             color: root.cfg_customNumberColor
             showAlphaChannel: true
             visible: !root.cfg_useThemeColors && root.cfg_visualizationMode === "numbers"
@@ -264,7 +248,7 @@ KCM.SimpleKCM {
 
         KQuickControls.ColorButton {
             id: customDotColor
-            Kirigami.FormData.label: root.tr("Цвет индикатора окон:", "Window dot color:")
+            Kirigami.FormData.label: "Window dot color:"
             color: root.cfg_customDotColor
             showAlphaChannel: true
             visible: !root.cfg_useThemeColors && root.cfg_visualizationMode === "windowDot"

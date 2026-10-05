@@ -58,8 +58,5 @@
     <entry name="middleClickAction" type="String">
       <default>none</default>
     </entry>
-    <entry name="language" type="String">
-      <default>en</default>
-    </entry>
   </group>
 </kcfg>

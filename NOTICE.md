@@ -14,3 +14,5 @@ On 2026-10-05, the standalone project was named **kOMA Workspace Indicator**, it
 The GPL-2.0-or-later declaration permits use under GNU GPL version 2 or, at your option, any later version. The included LICENSE contains GNU GPL version 2. This project does not claim sole authorship of the upstream work.
 
 Standalone metadata modified by Greg / Columbia Foundry on 2026-10-05: project name, maintainer credit, description, repository URL, and release version 0.2.0. Dated modification notices were added to the changed QML and XML files on that date.
+
+2026-10-05: Greg / Columbia Foundry removed Russian interface strings and the language selector from config.qml, configAppearance.qml, configSupport.qml, CompactView.qml, and main.xml for the English-only 0.2.1 release.

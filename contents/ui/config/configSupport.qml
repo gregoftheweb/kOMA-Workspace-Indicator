@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Derived from Desktop Switcher by Sm1Tee.
+// Modified by Greg / Columbia Foundry, 2026-10-05: English-only interface.
 import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts
@@ -7,8 +10,6 @@ import org.kde.kcmutils as KCM
 KCM.SimpleKCM {
     id: root
 
-    property string cfg_language: "ru"
-    function tr(ru, en) { return root.cfg_language === "en" ? en : ru; }
 
     ColumnLayout {
         anchors.fill: parent
@@ -32,14 +33,14 @@ KCM.SimpleKCM {
             }
 
             Kirigami.Heading {
-                text: root.tr("Поддержка автора", "Support the author")
+                text: "Support the author"
                 level: 2
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
 
             QQC2.Label {
-                text: root.tr("Если виджет оказался полезен, можно поддержать развитие проекта через CloudTips.", "If this widget is useful to you, you can support the project through CloudTips.")
+                text: "If this widget is useful to you, you can support the project through CloudTips."
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
@@ -53,13 +54,13 @@ KCM.SimpleKCM {
                     spacing: Kirigami.Units.smallSpacing
 
                     QQC2.Label {
-                        text: root.tr("Автор: Sm1Tee", "Author: Sm1Tee")
+                        text: "Author: Sm1Tee"
                         wrapMode: Text.WordWrap
                         Layout.fillWidth: true
                     }
 
                     QQC2.Label {
-                        text: root.tr("Лицензия: GPL-2.0-or-later", "License: GPL-2.0-or-later")
+                        text: "License: GPL-2.0-or-later"
                         wrapMode: Text.WordWrap
                         Layout.fillWidth: true
                     }
@@ -67,7 +68,7 @@ KCM.SimpleKCM {
             }
 
             QQC2.Button {
-                text: root.tr("Поддержать через CloudTips", "Support via CloudTips")
+                text: "Support via CloudTips"
                 icon.name: "favorite"
                 Layout.alignment: Qt.AlignHCenter
                 onClicked: Qt.openUrlExternally("https://pay.cloudtips.ru/p/fc80e27c")

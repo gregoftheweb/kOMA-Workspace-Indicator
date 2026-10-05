@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Derived from Desktop Switcher by Sm1Tee.
-// Modified by Greg / Columbia Foundry for kOMA; notice added 2026-10-05.
+// Modified by Greg / Columbia Foundry for kOMA; 2026-10-05: kOMA changes and English-only interface.
 import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts
@@ -113,27 +113,9 @@ Item {
         if (steps !== 0) activateRelativeDesktop(-steps);
     }
 
-    function tr(ru, en) {
-        return Plasmoid.configuration.language === "en" ? en : ru
-    }
 
     function windowCountText(count) {
-        if (Plasmoid.configuration.language === "en") {
-            return count === 1 ? "1 window" : count + " windows"
-        }
-        const lastTwoDigits = count % 100;
-        const lastDigit = count % 10;
-        let suffix = "окон";
-
-        if (lastTwoDigits < 11 || lastTwoDigits > 14) {
-            if (lastDigit === 1) {
-                suffix = "окно";
-            } else if (lastDigit >= 2 && lastDigit <= 4) {
-                suffix = "окна";
-            }
-        }
-
-        return count + " " + suffix
+        return count === 1 ? "1 window" : count + " windows"
     }
 
     function taskBelongsToDesktop(taskIndex, desktopId) {
@@ -277,10 +259,7 @@ Item {
                 height: compactRoot.minSlotHeight + (compactRoot.isVertical ? separatorExtent : 0)
                 activeFocusOnTab: true
                 Accessible.role: Accessible.Button
-                Accessible.name: compactRoot.tr(
-                    "Переключиться на " + (desktopInfo.desktopNames[index] || ""),
-                    "Switch to " + (desktopInfo.desktopNames[index] || "")
-                )
+                Accessible.name: "Switch to " + (desktopInfo.desktopNames[index] || "")
                 Accessible.description: compactRoot.windowCountText(windowCount)
 
                 Keys.onPressed: event => {
