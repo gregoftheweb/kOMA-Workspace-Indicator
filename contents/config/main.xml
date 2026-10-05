@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+
+  <group name="Appearance">
+    <entry name="indicatorShape" type="String">
+      <default>capsule</default>
+    </entry>
+    <entry name="visualizationMode" type="String">
+      <default>icons</default>
+    </entry>
+    <entry name="maxIconCount" type="Int">
+      <default>5</default>
+      <min>1</min>
+      <max>10</max>
+    </entry>
+    <entry name="showNumberWithIcons" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="iconSize" type="Int">
+      <default>30</default>
+      <min>6</min>
+      <max>48</max>
+    </entry>
+    <entry name="elementSize" type="Int">
+      <default>30</default>
+      <min>8</min>
+      <max>64</max>
+    </entry>
+    <entry name="elementSpacing" type="Int">
+      <default>10</default>
+      <min>0</min>
+      <max>32</max>
+    </entry>
+    <entry name="useThemeColors" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="customActiveBgColor" type="String">
+      <default>#3daee9</default>
+    </entry>
+    <entry name="customInactiveBgColor" type="String">
+      <default>#4d4d4d</default>
+    </entry>
+    <entry name="customBorderColor" type="String">
+      <default>#7f8c8d</default>
+    </entry>
+    <entry name="customNumberColor" type="String">
+      <default>#ffffff</default>
+    </entry>
+    <entry name="customDotColor" type="String">
+      <default>#ffffff</default>
+    </entry>
+    <entry name="middleClickAction" type="String">
+      <default>none</default>
+    </entry>
+    <entry name="language" type="String">
+      <default>en</default>
+    </entry>
+  </group>
+</kcfg>
