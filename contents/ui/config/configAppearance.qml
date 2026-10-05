@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Derived from Desktop Switcher by Sm1Tee.
+// Modified by Greg / Columbia Foundry for kOMA; notice added 2026-10-05.
 import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts

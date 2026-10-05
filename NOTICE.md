@@ -12,3 +12,5 @@ The kOMA derivative was extracted from `kOMA-desktop-theme/plasmoids/workspaces`
 On 2026-10-05, the standalone project was named **kOMA Workspace Indicator**, its credits and GPL license were preserved, and this notice was added. The installed desktop-theme copy was left intact.
 
 The GPL-2.0-or-later declaration permits use under GNU GPL version 2 or, at your option, any later version. The included LICENSE contains GNU GPL version 2. This project does not claim sole authorship of the upstream work.
+
+Standalone metadata modified by Greg / Columbia Foundry on 2026-10-05: project name, maintainer credit, description, repository URL, and release version 0.2.0. Dated modification notices were added to the changed QML and XML files on that date.

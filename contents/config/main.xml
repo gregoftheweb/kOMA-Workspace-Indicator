@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- GPL-2.0-or-later; derived from Desktop Switcher by Sm1Tee.
+     Modified by Greg / Columbia Foundry for kOMA; notice added 2026-10-05. -->
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
