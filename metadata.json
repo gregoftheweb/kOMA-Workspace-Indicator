@@ -18,7 +18,7 @@
         "Id": "kde-desktop.workspaces",
         "License": "GPL-2.0-or-later",
         "Name": "kOMA Workspace Indicator",
-        "Version": "0.2.1",
+        "Version": "0.2.2",
         "Website": "https://github.com/gregoftheweb/kOMA-Workspace-Indicator"
     },
     "X-Plasma-API-Minimum-Version": "6.0"

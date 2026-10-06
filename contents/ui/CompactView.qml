@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Derived from Desktop Switcher by Sm1Tee.
 // Modified by Greg / Columbia Foundry for kOMA; 2026-10-05: kOMA changes and English-only interface.
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts
@@ -51,10 +52,6 @@ Item {
     readonly property int iconPadding: 6
 
     property int wheelDelta: 0
-    // Bumped on any task change. tasksModel.data() isn't a tracked property, so bindings
-    // that scan the model must depend on this, or moving a window between desktops
-    // (which only emits dataChanged, not a count change) never refreshes the icons.
-    property int taskRevision: 0
 
     implicitWidth: isVertical ? minSlotHeight : desktopFlow.childrenRect.width
     implicitHeight: isVertical ? desktopFlow.childrenRect.height : minSlotHeight
@@ -118,55 +115,6 @@ Item {
         return count === 1 ? "1 window" : count + " windows"
     }
 
-    function taskBelongsToDesktop(taskIndex, desktopId) {
-        if (!desktopId) return false;
-
-        if (tasksModel.data(taskIndex, TaskManager.AbstractTasksModel.IsOnAllVirtualDesktops)) {
-            return true;
-        }
-
-        const desktops = tasksModel.data(taskIndex, TaskManager.AbstractTasksModel.VirtualDesktops) || [];
-        return desktops.indexOf(desktopId) !== -1;
-    }
-
-    function isVisibleWindowTask(taskIndex) {
-        return tasksModel.data(taskIndex, TaskManager.AbstractTasksModel.IsWindow)
-            && !tasksModel.data(taskIndex, TaskManager.AbstractTasksModel.SkipPager);
-    }
-
-    function windowCountForDesktop(desktopId, revision) {
-        let count = 0;
-        for (let row = 0; row < tasksModel.count; row += 1) {
-            const taskIndex = tasksModel.makeModelIndex(row);
-            if (isVisibleWindowTask(taskIndex) && taskBelongsToDesktop(taskIndex, desktopId)) {
-                count += 1;
-            }
-        }
-        return count;
-    }
-
-    function applicationIconsForDesktop(desktopId, revision) {
-        const icons = [];
-        if (!showIcons) return icons;
-
-        for (let row = 0; row < tasksModel.count && icons.length < Plasmoid.configuration.maxIconCount; row += 1) {
-            const taskIndex = tasksModel.makeModelIndex(row);
-            if (isVisibleWindowTask(taskIndex) && taskBelongsToDesktop(taskIndex, desktopId)) {
-                icons.push(tasksModel.data(taskIndex, Qt.DecorationRole));
-            }
-        }
-        return icons;
-    }
-
-    function closeAllWindowsOnDesktop(desktopId) {
-        for (let row = tasksModel.count - 1; row >= 0; row--) {
-            const taskIndex = tasksModel.makeModelIndex(row);
-            if (isVisibleWindowTask(taskIndex) && taskBelongsToDesktop(taskIndex, desktopId)) {
-                tasksModel.requestClose(taskIndex);
-            }
-        }
-    }
-
     function invokeKWinShortcut(shortcutName) {
         DBus.SessionBus.asyncCall({
             "service": "org.kde.kglobalaccel",
@@ -203,22 +151,6 @@ Item {
         id: activityInfo
     }
 
-    TaskManager.TasksModel {
-        id: tasksModel
-        filterByActivity: true
-        filterHidden: true
-        filterByVirtualDesktop: false
-        groupMode: TaskManager.TasksModel.GroupDisabled
-        activity: activityInfo.currentActivity
-
-        onDataChanged: compactRoot.taskRevision++
-        onRowsInserted: compactRoot.taskRevision++
-        onRowsRemoved: compactRoot.taskRevision++
-        onRowsMoved: compactRoot.taskRevision++
-        onModelReset: compactRoot.taskRevision++
-        onLayoutChanged: compactRoot.taskRevision++
-    }
-
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
@@ -241,13 +173,15 @@ Item {
 
             delegate: Item {
                 id: desktopDelegate
+                required property int index
 
                 readonly property var desktopId: compactRoot.desktopIdAt(index)
                 readonly property bool current: desktopId === desktopInfo.currentDesktop
-                readonly property int windowCount: compactRoot.windowCountForDesktop(desktopId, compactRoot.taskRevision)
-                readonly property var applicationIcons: compactRoot.applicationIconsForDesktop(desktopId, compactRoot.taskRevision)
+                readonly property int windowCount: desktopTasks.count
+                readonly property int displayedIconCount: compactRoot.showIcons
+                    ? Math.min(windowCount, Math.max(1, Plasmoid.configuration.maxIconCount)) : 0
                 readonly property int dynamicIndicatorWidth: Plasmoid.configuration.visualizationMode === "icons"
-                    ? compactRoot.indicatorWidthForIcons(applicationIcons.length,
+                    ? compactRoot.indicatorWidthForIcons(displayedIconCount,
                         compactRoot.showNumberWithIcons ? iconRowNumber.implicitWidth : 0)
                     : compactRoot.baseIndicatorWidth
 
@@ -262,6 +196,12 @@ Item {
                 Accessible.name: "Switch to " + (desktopInfo.desktopNames[index] || "")
                 Accessible.description: compactRoot.windowCountText(windowCount)
 
+                DesktopTasks {
+                    id: desktopTasks
+                    desktopId: desktopDelegate.desktopId
+                    activityId: activityInfo.currentActivity
+                }
+
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Space) {
                         compactRoot.setCurrentDesktop(index + 1);
@@ -272,7 +212,7 @@ Item {
                 TapHandler {
                     acceptedButtons: Qt.LeftButton
                     gesturePolicy: TapHandler.WithinBounds
-                    onTapped: compactRoot.setCurrentDesktop(index + 1)
+                    onTapped: compactRoot.setCurrentDesktop(desktopDelegate.index + 1)
                 }
 
                 TapHandler {
@@ -281,7 +221,7 @@ Item {
                     onTapped: {
                         const action = Plasmoid.configuration.middleClickAction;
                         if (action === "closeAll") {
-                            compactRoot.closeAllWindowsOnDesktop(desktopDelegate.desktopId)
+                            desktopTasks.closeAll()
                         } else if (action === "overview") {
                             compactRoot.invokeKWinShortcut("Overview")
                         } else if (action === "grid") {
@@ -335,7 +275,7 @@ Item {
                     anchors.centerIn: indicator
                     height: Math.max(compactRoot.configuredElementSize, compactRoot.iconSize, iconRowNumber.implicitHeight)
                     spacing: 2
-                    visible: (desktopDelegate.applicationIcons.length > 0 || compactRoot.showNumberWithIcons)
+                    visible: (desktopDelegate.displayedIconCount > 0 || compactRoot.showNumberWithIcons)
                         && Plasmoid.configuration.visualizationMode === "icons"
 
                     QQC2.Label {
@@ -343,22 +283,20 @@ Item {
                         visible: compactRoot.showNumberWithIcons
                         height: parent.height
                         verticalAlignment: Text.AlignVCenter
-                        text: String(index + 1)
+                        text: String(desktopDelegate.index + 1)
                         color: compactRoot.plainSeparators ? desktopDelegate.plainTextColor
                             : desktopDelegate.current ? compactRoot.numberColor : Kirigami.Theme.textColor
                         font.bold: true
                         font.pixelSize: compactRoot.numberPixelSize
                     }
 
-                    Repeater {
-                        model: desktopDelegate.applicationIcons
-
-                        Kirigami.Icon {
-                            width: compactRoot.iconSize
-                            height: width
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: modelData
-                        }
+                    WindowIcons {
+                        windowModel: desktopTasks.windowModel
+                        iconSize: compactRoot.iconSize
+                        iconLimit: desktopDelegate.displayedIconCount
+                        showIcons: compactRoot.showIcons
+                        visible: desktopDelegate.displayedIconCount > 0
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                 }
 
@@ -367,7 +305,7 @@ Item {
                     width: indicator.width - 2
                     height: Math.max(indicator.height, implicitHeight)
                     visible: Plasmoid.configuration.visualizationMode === "numbers"
-                    text: String(index + 1)
+                    text: String(desktopDelegate.index + 1)
                     color: compactRoot.plainSeparators ? desktopDelegate.plainTextColor : compactRoot.numberColor
                     Behavior on color {
                         ColorAnimation { duration: 150 }

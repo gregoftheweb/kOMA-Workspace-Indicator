@@ -27,3 +27,35 @@ The plugin ID remains `kde-desktop.workspaces` to preserve compatibility with ex
 ## Development
 
 This project will continue to diverge from Desktop Switcher. Preserve upstream attribution and licensing when making changes, and document notable changes in [CHANGELOG.md](CHANGELOG.md).
+
+### Model architecture (Chet)
+
+The indicator stays in QML and uses KDE's existing native models. Each desktop
+has a `TasksModel` filtered by desktop and current activity; KDE shares its
+underlying window source across these models. Two native `KSortFilterProxyModel`
+filters retain only window tasks that are not marked `SkipPager`. This adds the
+standard `org.kde.kitemmodels` QML module as a runtime requirement.
+
+Icons bind directly to model rows and the `decoration` role. Title updates no
+longer rescan every desktop or replace icon arrays. Rows outside the icon limit
+have lightweight placeholders but do not instantiate icons. Counts remain
+available in every appearance mode. KDE handles sticky windows, membership
+changes, hidden-window filtering, and activities. Each panel retains its own
+view/proxy models; this phase introduces no custom compiled backend.
+
+Run the model and delegate regression checks with Qt 6 (some distributions also
+provide a Qt 5 `qmltestrunner` under the unqualified command name):
+
+```sh
+QT_QPA_PLATFORM=offscreen QT_QUICK_BACKEND=software \
+  /usr/lib/qt6/bin/qmltestrunner -input tests
+/usr/lib/qt6/bin/qmllint contents/ui/*.qml tests/*.qml
+```
+
+The tests inject controlled task rows to verify filtering, delegate stability,
+icon limits, and close-all index mapping. They do not simulate KWin's live
+window protocol. Before releasing, verify window moves, all-desktop windows,
+activity changes, desktop addition/removal, horizontal/vertical layouts, all
+appearance modes, wheel/keyboard switching, and middle-click actions in a real
+Plasma session with two panel instances. A synthetic title storm passing does
+not prove that the previously observed Plasma CPU problem is resolved.

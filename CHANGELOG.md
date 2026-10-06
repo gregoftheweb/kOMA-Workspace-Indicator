@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2 — 2026-10-06
+
+- Replace broad task-change rescans and temporary icon arrays with KDE desktop/activity-filtered task models and native pager eligibility filters.
+- Bind icons to model roles so title updates preserve delegates and icon updates affect existing delegates. Only icons within the configured limit are instantiated.
+- Preserve appearance options, desktop navigation, counts, and middle-click actions; map close-all requests through the filtered models.
+- Add Qt 6 model tests for title storms, icon changes, pager eligibility, insertion/removal/reordering, icon limits, two views, and close-all mapping.
+
 ## 0.2.1 — 2026-10-05
 
 - Use English throughout the interface, including settings, support, accessibility labels, and window counts.
