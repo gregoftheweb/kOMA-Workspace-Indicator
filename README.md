@@ -28,6 +28,15 @@ The plugin ID remains `kde-desktop.workspaces` to preserve compatibility with ex
 
 This project will continue to diverge from Desktop Switcher. Preserve upstream attribution and licensing when making changes, and document notable changes in [CHANGELOG.md](CHANGELOG.md).
 
+```sh
+make setup      # once: Prettier and ShellCheck into node_modules, enable the pre-commit hook
+make check      # qmllint, qmlformat, Prettier, ShellCheck, metadata checks, QML tests
+make install    # install the package files into this session and restart plasmashell
+make package    # dist/koma-workspace-indicator-<version>.plasmoid for the KDE Store
+```
+
+Qt 6's tools are taken from `/usr/lib/qt6/bin` (on Arch the plain names on PATH can be Qt 5).
+
 ### Model architecture (Chet)
 
 The indicator stays in QML and uses KDE's existing native models. Each desktop

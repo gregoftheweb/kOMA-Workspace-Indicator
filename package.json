@@ -1,0 +1,15 @@
+{
+  "name": "koma-workspace-indicator",
+  "version": "0.2.3",
+  "private": true,
+  "description": "Dev tooling for kOMA Workspace Indicator (formatting and shell lint); the widget itself has no npm dependencies.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.0",
+    "shellcheck": "^3.1.0"
+  }
+}

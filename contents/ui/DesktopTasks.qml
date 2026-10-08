@@ -23,6 +23,9 @@ QtObject {
         filterByActivity: true
         filterHidden: true
         groupMode: TaskManager.TasksModel.GroupDisabled
+        // Icons follow the windows left to right across all screens; KDE
+        // re-sorts on its own geometry updates, so moving a window reorders them.
+        sortMode: TaskManager.TasksModel.SortWindowPositionHorizontal
     }
 
     // Native role filters preserve the existing pager eligibility rules.
@@ -42,9 +45,9 @@ QtObject {
         // Reverse traversal tolerates synchronous removal after a close request.
         // Map through both proxies; filtered row numbers are not source rows.
         for (let row = pagerWindows.count - 1; row >= 0; --row) {
-            const windowIndex = root.pagerWindows.mapToSource(root.pagerWindows.index(row, 0));
-            const taskIndex = root.windows.mapToSource(windowIndex);
-            root.taskSource.requestClose(taskIndex);
+            const windowIndex = root.pagerWindows.mapToSource(root.pagerWindows.index(row, 0))
+            const taskIndex = root.windows.mapToSource(windowIndex)
+            root.taskSource.requestClose(taskIndex)
         }
     }
 }

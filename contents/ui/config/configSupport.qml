@@ -10,7 +10,6 @@ import org.kde.kcmutils as KCM
 KCM.SimpleKCM {
     id: root
 
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: Kirigami.Units.gridUnit

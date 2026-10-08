@@ -27,7 +27,6 @@ KCM.SimpleKCM {
     property string cfg_middleClickAction: "none"
     property int cfg_iconSize: 30
 
-
     Kirigami.FormLayout {
 
         Kirigami.Separator {
@@ -41,11 +40,26 @@ KCM.SimpleKCM {
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: "Dots", value: "dot" },
-                { text: "Circles", value: "circle" },
-                { text: "Squares", value: "square" },
-                { text: "Capsules", value: "capsule" },
-                { text: "No background, || separators", value: "separators" }
+                {
+                    text: "Dots",
+                    value: "dot"
+                },
+                {
+                    text: "Circles",
+                    value: "circle"
+                },
+                {
+                    text: "Squares",
+                    value: "square"
+                },
+                {
+                    text: "Capsules",
+                    value: "capsule"
+                },
+                {
+                    text: "No background, || separators",
+                    value: "separators"
+                }
             ]
 
             function syncCurrentIndex() {
@@ -58,7 +72,9 @@ KCM.SimpleKCM {
 
             Connections {
                 target: root
-                function onCfg_indicatorShapeChanged() { indicatorShape.syncCurrentIndex() }
+                function onCfg_indicatorShapeChanged() {
+                    indicatorShape.syncCurrentIndex()
+                }
             }
         }
 
@@ -68,10 +84,22 @@ KCM.SimpleKCM {
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: "None", value: "none" },
-                { text: "Numbers", value: "numbers" },
-                { text: "Window dots", value: "windowDot" },
-                { text: "App icons", value: "icons" }
+                {
+                    text: "None",
+                    value: "none"
+                },
+                {
+                    text: "Numbers",
+                    value: "numbers"
+                },
+                {
+                    text: "Window dots",
+                    value: "windowDot"
+                },
+                {
+                    text: "App icons",
+                    value: "icons"
+                }
             ]
 
             function syncCurrentIndex() {
@@ -84,7 +112,9 @@ KCM.SimpleKCM {
 
             Connections {
                 target: root
-                function onCfg_visualizationModeChanged() { visualizationMode.syncCurrentIndex() }
+                function onCfg_visualizationModeChanged() {
+                    visualizationMode.syncCurrentIndex()
+                }
             }
         }
 
@@ -113,11 +143,26 @@ KCM.SimpleKCM {
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: "Nothing", value: "none" },
-                { text: "Close all windows on desktop", value: "closeAll" },
-                { text: "Desktop overview", value: "overview" },
-                { text: "Desktop grid", value: "grid" },
-                { text: "Show desktop", value: "showDesktop" }
+                {
+                    text: "Nothing",
+                    value: "none"
+                },
+                {
+                    text: "Close all windows on desktop",
+                    value: "closeAll"
+                },
+                {
+                    text: "Desktop overview",
+                    value: "overview"
+                },
+                {
+                    text: "Desktop grid",
+                    value: "grid"
+                },
+                {
+                    text: "Show desktop",
+                    value: "showDesktop"
+                }
             ]
 
             function syncCurrentIndex() {
@@ -130,7 +175,9 @@ KCM.SimpleKCM {
 
             Connections {
                 target: root
-                function onCfg_middleClickActionChanged() { middleClickAction.syncCurrentIndex() }
+                function onCfg_middleClickActionChanged() {
+                    middleClickAction.syncCurrentIndex()
+                }
             }
         }
 

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Install/upgrade kOMA Workspace Indicator from this folder (no panel changes).
+set -euo pipefail
+dir=$(cd "$(dirname "$0")/.." && pwd)
+# install only what `make package` ships (plus files not yet committed), never dev tooling
+pkg=$(mktemp -d)
+trap 'rm -rf "$pkg"' EXIT
+(cd "$dir" && git ls-files -z --cached --others --exclude-standard -- metadata.json contents LICENSE NOTICE.md |
+  while IFS= read -r -d "" f; do if [ -e "$f" ]; then cp --parents "$f" "$pkg"; fi; done)
+kpackagetool6 --type Plasma/Applet --upgrade "$pkg" >/dev/null 2>&1 ||
+  kpackagetool6 --type Plasma/Applet --install "$pkg"
+echo "kOMA Workspace Indicator installed"

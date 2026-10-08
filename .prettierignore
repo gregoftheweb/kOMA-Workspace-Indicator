@@ -1,0 +1,6 @@
+node_modules/
+dist/
+package-lock.json
+# QML and its JavaScript modules are formatted by qmlformat
+*.qml
+contents/**/*.js

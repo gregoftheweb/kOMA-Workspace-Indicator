@@ -1,3 +1,6 @@
+# dev tooling
+node_modules/
+# build output
 dist/
 *.qmlc
 *.jsc

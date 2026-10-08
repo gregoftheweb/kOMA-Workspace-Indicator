@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Reinstall kOMA Workspace Indicator from this folder and restart plasmashell.
+set -e
+"$(dirname "$0")/install"
+systemctl --user restart plasma-plasmashell.service

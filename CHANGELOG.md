@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.3 — 2026-10-08
+
+- Order each workspace's app icons left to right as the windows sit on screen, across all monitors (KDE's `SortWindowPositionHorizontal`), instead of alphabetically by app. Moving a window reorders its icon.
+- Add the kOMA developer tooling: `make check` (qmllint, qmlformat, Prettier, ShellCheck, metadata checks, QML tests) as a pre-commit hook, `make package` for the store upload, and `make install`, which installs only the package files.
+
 ## 0.2.2 — 2026-10-06
 
 - Replace broad task-change rescans and temporary icon arrays with KDE desktop/activity-filtered task models and native pager eligibility filters.

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Run the full gate before every commit (skip once with: git commit --no-verify).
+exec make --no-print-directory check
